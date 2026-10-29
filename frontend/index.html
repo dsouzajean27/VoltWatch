@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoltWatch – Electricity Usage Monitor</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>⚡ VoltWatch</h1>
+      <p class="subtitle">Cloud-Based Electricity Usage Monitoring</p>
+    </div>
+    <div class="badges">
+      <span class="badge badge-sim">SIMULATED DATA</span>
+      <span id="backendStatus" class="badge badge-off">Backend: checking…</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="alertBanner" class="alert hidden"></div>
+
+    <section class="panel controls">
+      <div class="btn-row">
+        <button id="startBtn" class="btn btn-start">▶ Start Simulation</button>
+        <button id="stopBtn" class="btn btn-stop" disabled>■ Stop</button>
+        <span id="simState" class="sim-state">Stopped</span>
+      </div>
+      <form id="settingsForm" class="settings">
+        <label>Price per kWh (<span class="cur"></span>)
+          <input type="number" id="priceInput" min="0" step="0.01" required />
+        </label>
+        <label>Power threshold (W)
+          <input type="number" id="thresholdInput" min="1" step="1" required />
+        </label>
+        <button type="submit" class="btn btn-save">Save Settings</button>
+      </form>
+    </section>
+
+    <section class="cards">
+      <div class="card"><span class="label">Power</span><span id="powerVal" class="value">--</span><span class="unit">W</span></div>
+      <div class="card"><span class="label">Voltage</span><span id="voltageVal" class="value">--</span><span class="unit">V</span></div>
+      <div class="card"><span class="label">Current</span><span id="currentVal" class="value">--</span><span class="unit">A</span></div>
+      <div class="card"><span class="label">Energy Today</span><span id="energyVal" class="value">0.0000</span><span class="unit">kWh</span></div>
+      <div class="card"><span class="label">Estimated Cost</span><span id="costVal" class="value">0.00</span><span class="unit cur"></span></div>
+      <div class="card"><span class="label">Session Peak</span><span id="peakVal" class="value">--</span><span class="unit" id="peakTime">W</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>Live Power (last 30 readings) <small>– simulated</small></h2>
+      <div class="chart-box"><canvas id="liveChart"></canvas></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Historical Usage (from Azure) <small>– simulated</small></h2>
+        <button id="refreshBtn" class="btn btn-small">↻ Refresh</button>
+      </div>
+      <div class="chart-box"><canvas id="historyChart"></canvas></div>
+    </section>
+
+    <section class="panel">
+      <h2>Daily Energy Summary <small>– simulated</small></h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date (UTC)</th><th>Energy (kWh)</th><th>Cost</th><th>Peak Power (W)</th><th>Peak Time</th><th>Readings</th></tr>
+          </thead>
+          <tbody id="summaryBody">
+            <tr><td colspan="6">No data yet. Start the simulation.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">VoltWatch mini project • All readings are simulated, no hardware is used.</footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/simulator.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
